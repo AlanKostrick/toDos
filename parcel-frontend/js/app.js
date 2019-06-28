@@ -44,13 +44,12 @@ function navToDos() {
     const app = document.querySelector('#app');
     app.addEventListener('click', function () {
         if (event.target.classList.contains('add-toDo__submit')) {
-            const toDo = event.target.parentElement.querySelector('.add-toDo__toDoName').value;
-            console.log(toDo);
-            apiActions.postRequest('https://localhost:44326/api/todos', { toDo: toDo },
+            const todo = event.target.parentElement.querySelector('.add-toDo__toDoName').value;
+            apiActions.postRequest('https://localhost:44326/api/todos', todo,
                 (toDos) => {
                     console.log(toDos);
-                    document.querySelector('#app').innerHTML = ToDos(toDos)
-                });
+                    document.querySelector('#app').innerHTML = ToDos(toDos);
+                })
         }
     })
 

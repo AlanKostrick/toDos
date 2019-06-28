@@ -1,7 +1,7 @@
 export default function ToDos(toDos) {
     return `
         <ul> 
-            ${toDos.map(toDo => {
+        ${toDos.map(toDo => {
         return `
                     <li>
                         <h3>${toDo}</h3>

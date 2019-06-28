@@ -8,7 +8,10 @@ function getRequest(location, callback) {
 function postRequest(location, requestBody, callback) {
     fetch(location, {
         method: "POST",
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
+        headers: {
+            "Content-Type": "application/json"
+        }
     })
         .then(response => response.json())
         .then(data => callback(data))

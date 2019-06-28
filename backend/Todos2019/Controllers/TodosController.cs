@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Todos2019.Controllers
 {
+    [Produces ("application/json")]
     [Route("api/todos")]
     [ApiController]
     public class TodosController : ControllerBase
@@ -24,12 +25,12 @@ namespace Todos2019.Controllers
             return all;
         }
 
-
+        
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] string todo)
+        public ActionResult<IEnumerable<string>> Post([FromBody] string todo)
         {
             all.Add(todo);
-            return true;
+            return all;
         }
     }
 }

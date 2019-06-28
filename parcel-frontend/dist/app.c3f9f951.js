@@ -159,7 +159,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = ToDos;
 
 function ToDos(toDos) {
-  return "\n        <ul> \n            ".concat(toDos.map(function (toDo) {
+  return "\n        <ul> \n        ".concat(toDos.map(function (toDo) {
     return "\n                    <li>\n                        <h3>".concat(toDo, "</h3>\n                    </li>\n                ");
   }).join(''), "\n         </ul>\n\n         <section class='add-toDo'>\n            <input class='add-toDo__toDoName' type='text' placeholder='Add a toDo!'>\n            <button class='add-toDo__submit'>Submit</button>\n        </section>\n    ");
 }
@@ -197,7 +197,10 @@ function getRequest(location, callback) {
 function postRequest(location, requestBody, callback) {
   fetch(location, {
     method: "POST",
-    body: JSON.stringify(requestBody)
+    body: JSON.stringify(requestBody),
+    headers: {
+      "Content-Type": "application/json"
+    }
   }).then(function (response) {
     return response.json();
   }).then(function (data) {
@@ -266,12 +269,9 @@ function navToDos() {
   var app = document.querySelector('#app');
   app.addEventListener('click', function () {
     if (event.target.classList.contains('add-toDo__submit')) {
-      var toDo = event.target.parentElement.querySelector('.add-toDo__toDoName').value;
-      console.log(toDo);
+      var todo = event.target.parentElement.querySelector('.add-toDo__toDoName').value;
 
-      _apiActions.default.postRequest('https://localhost:44326/api/todos', {
-        toDo: toDo
-      }, function (toDos) {
+      _apiActions.default.postRequest('https://localhost:44326/api/todos', todo, function (toDos) {
         console.log(toDos);
         document.querySelector('#app').innerHTML = (0, _ToDos.default)(toDos);
       });
@@ -315,7 +315,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52117" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63407" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
