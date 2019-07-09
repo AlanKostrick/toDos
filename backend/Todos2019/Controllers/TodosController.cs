@@ -32,5 +32,12 @@ namespace Todos2019.Controllers
             all.Add(todo);
             return all;
         }
+
+        [HttpDelete]
+        public ActionResult<IEnumerable<string>> Delete([FromBody] string todo)
+        {
+            all.Remove(todo);
+            return all;
+        }
     }
 }
