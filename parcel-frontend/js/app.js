@@ -53,6 +53,30 @@ function navToDos() {
         }
     })
 
+    app.addEventListener('click', function () {
+        if (event.target.classList.contains('delete-toDo__submit')) {
+            const todo = event.target.parentElement.querySelector('.delete-toDo__toDoName').value;
+            apiActions.deleteRequest('https://localhost:44326/api/todos', todo,
+                (toDos) => {
+                    console.log(toDos);
+                    document.querySelector('#app').innerHTML = ToDos(toDos);
+                })
+        }
+    })
+
+    app.addEventListener('click', function () {
+        if (event.target.classList.contains('delete-toDoId__submit')) {
+            console.log('event triggered');
+            const todo = event.target.parentElement.querySelector('.delete-toDo__id').value;
+            console.log(todo);
+            apiActions.deleteRequest('https://localhost:44326/api/todos', todo,
+                (toDos) => {
+                    console.log(toDos);
+                    document.querySelector('#app').innerHTML = ToDos(toDos);
+                })
+        }
+    })
+
 }
 
 function navValues() {

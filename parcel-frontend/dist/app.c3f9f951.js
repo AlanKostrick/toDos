@@ -160,8 +160,8 @@ exports.default = ToDos;
 
 function ToDos(toDos) {
   return "\n        <ul> \n        ".concat(toDos.map(function (toDo) {
-    return "\n                    <li>\n                        <h3>".concat(toDo, "</h3>\n                    </li>\n                ");
-  }).join(''), "\n         </ul>\n\n         <section class='add-toDo'>\n            <input class='add-toDo__toDoName' type='text' placeholder='Add a toDo!'>\n            <button class='add-toDo__submit'>Submit</button>\n        </section>\n    ");
+    return "\n                    <li>\n                        <h3>".concat(toDo, "</h3>\n                        <input class='delete-toDo__id' type='hidden' value=\"").concat(toDo, "\">\n                        <button class='delete-toDoId__submit'>&times</button>\n                    </li>\n                ");
+  }).join(''), "\n         </ul>\n\n         <section class='add-toDo'>\n            <input class='add-toDo__toDoName' type='text' placeholder='Add a toDo!'>\n            <button class='add-toDo__submit'>Submit</button>\n        </section>\n\n        <section class='delete-toDo'>\n            <input class='delete-toDo__toDoName' type='text' placeholder='Delete a toDo!'>\n            <button class='delete-toDo__submit'>Submit</button>\n        </section>\n    ");
 }
 },{}],"js/components/Values.js":[function(require,module,exports) {
 "use strict";
@@ -210,9 +210,26 @@ function postRequest(location, requestBody, callback) {
   });
 }
 
+function deleteRequest(location, requestBody, callback) {
+  fetch(location, {
+    method: "DELETE",
+    body: JSON.stringify(requestBody),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    return callback(data);
+  }).catch(function (err) {
+    return console.log(err);
+  });
+}
+
 var _default = {
   getRequest: getRequest,
-  postRequest: postRequest
+  postRequest: postRequest,
+  deleteRequest: deleteRequest
 };
 exports.default = _default;
 },{}],"js/app.js":[function(require,module,exports) {
@@ -277,6 +294,28 @@ function navToDos() {
       });
     }
   });
+  app.addEventListener('click', function () {
+    if (event.target.classList.contains('delete-toDo__submit')) {
+      var todo = event.target.parentElement.querySelector('.delete-toDo__toDoName').value;
+
+      _apiActions.default.deleteRequest('https://localhost:44326/api/todos', todo, function (toDos) {
+        console.log(toDos);
+        document.querySelector('#app').innerHTML = (0, _ToDos.default)(toDos);
+      });
+    }
+  });
+  app.addEventListener('click', function () {
+    if (event.target.classList.contains('delete-toDoId__submit')) {
+      console.log('event triggered');
+      var todo = event.target.parentElement.querySelector('.delete-toDo__id').value;
+      console.log(todo);
+
+      _apiActions.default.deleteRequest('https://localhost:44326/api/todos', todo, function (toDos) {
+        console.log(toDos);
+        document.querySelector('#app').innerHTML = (0, _ToDos.default)(toDos);
+      });
+    }
+  });
 }
 
 function navValues() {
@@ -315,7 +354,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63407" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59542" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
